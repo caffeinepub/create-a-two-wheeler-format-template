@@ -282,7 +282,7 @@ interface CarPrintData {
   relationship: string;
   color: string;
   modelYear: string;
-  fuelType: FuelType;
+  fuelType: string;
   brand: string;
   model: string;
   engineCC: string;
@@ -291,8 +291,10 @@ interface CarPrintData {
   parts: CarPartsState;
   vehiclePhotos: PhotoItem[];
   inspectionDate: string;
+  inspectionTime: string;
   remarks: string;
   surveyorSignatureImage: string | null;
+  inspectionPlace: string;
 }
 
 function buildCarPrintHTML(data: CarPrintData): string {
@@ -314,6 +316,8 @@ function buildCarPrintHTML(data: CarPrintData): string {
     parts,
     vehiclePhotos,
     inspectionDate,
+    inspectionTime,
+    inspectionPlace,
     remarks,
     surveyorSignatureImage,
   } = data;
@@ -358,14 +362,17 @@ function buildCarPrintHTML(data: CarPrintData): string {
         day: "2-digit",
         month: "2-digit",
         year: "numeric",
-      })
+      }) + (inspectionTime ? ` ${inspectionTime}` : "")
     : "_______________";
 
-  const fuelLabel =
-    {
-      [FuelType.petrol]: "Petrol",
-      [FuelType.electric]: "Electric",
-    }[fuelType] || String(fuelType);
+  const fuelLabel: Record<string, string> = {
+    petrol: "Petrol",
+    diesel: "Diesel",
+    cng: "CNG",
+    lpg: "LPG",
+    electric: "Electric",
+  };
+  const fuelDisplay = fuelLabel[fuelType] || fuelType;
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -433,7 +440,7 @@ function buildCarPrintHTML(data: CarPrintData): string {
       </tr>
       <tr>
         <td style="padding:3px 0;font-size:12px;color:#64748b">Fuel Type</td>
-        <td style="padding:3px 0;font-size:12px;font-weight:600">: ${fuelLabel}</td>
+        <td style="padding:3px 0;font-size:12px;font-weight:600">: ${fuelDisplay}</td>
         <td style="padding:3px 0;font-size:12px;color:#64748b">Brand</td>
         <td style="padding:3px 0;font-size:12px;font-weight:600">: ${brand || "\u2014"}</td>
       </tr>
@@ -448,6 +455,10 @@ function buildCarPrintHTML(data: CarPrintData): string {
         <td style="padding:3px 0;font-size:12px;font-weight:600">: ${engineCC ? `${engineCC} cc` : "\u2014"}</td>
         <td style="padding:3px 0;font-size:12px;color:#64748b">Inspection Date</td>
         <td style="padding:3px 0;font-size:12px;font-weight:600">: ${dateDisplay}</td>
+      </tr>
+      <tr>
+        <td style="padding:3px 0;font-size:12px;color:#64748b">Inspection Place</td>
+        <td colspan="3" style="padding:3px 0;font-size:12px;font-weight:600">: ${inspectionPlace || "—"}</td>
       </tr>
       ${notes ? `<tr><td style="padding:3px 0;font-size:12px;color:#64748b">Notes</td><td colspan="3" style="padding:3px 0;font-size:12px;font-weight:600">: ${notes}</td></tr>` : ""}
     </tbody>
@@ -517,7 +528,7 @@ export function CarInspectionForm() {
   const [relationship, setRelationship] = useState("");
   const [color, setColor] = useState("");
   const [modelYear, setModelYear] = useState("");
-  const [fuelType, setFuelType] = useState<FuelType>(FuelType.petrol);
+  const [fuelType, setFuelType] = useState<string>("petrol");
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
   const [variant, setVariant] = useState("");
@@ -533,6 +544,8 @@ export function CarInspectionForm() {
 
   // Declaration
   const [inspectionDate, setInspectionDate] = useState("");
+  const [inspectionTime, setInspectionTime] = useState("");
+  const [inspectionPlace, setInspectionPlace] = useState("");
   const [remarks, setRemarks] = useState("");
   const [surveyorSignatureImage, setSurveyorSignatureImage] = useState<
     string | null
@@ -603,6 +616,8 @@ export function CarInspectionForm() {
     parts,
     vehiclePhotos,
     inspectionDate,
+    inspectionTime,
+    inspectionPlace,
     remarks,
     surveyorSignatureImage,
   });
@@ -627,7 +642,9 @@ export function CarInspectionForm() {
         contactNumber: relationship.trim(),
         color: color.trim(),
         manufacturingYear: BigInt(modelYear || new Date().getFullYear()),
-        fuelType,
+        fuelType: (fuelType === "electric"
+          ? FuelType.electric
+          : FuelType.petrol) as FuelType,
         brand: brand.trim(),
         model: model.trim(),
         vehicleType: VehicleType.motorcycle,
@@ -685,7 +702,7 @@ export function CarInspectionForm() {
       setRelationship("");
       setColor("");
       setModelYear("");
-      setFuelType(FuelType.petrol);
+      setFuelType("petrol");
       setBrand("");
       setModel("");
       setEngineCC("");
@@ -694,6 +711,7 @@ export function CarInspectionForm() {
       setParts(defaultParts);
       setVehiclePhotos([]);
       setInspectionDate("");
+      setInspectionPlace("");
       setRemarks("");
       setSurveyorSignatureImage(null);
     } catch {
@@ -830,10 +848,7 @@ export function CarInspectionForm() {
             <Label htmlFor="car-fuelType" className="text-xs font-semibold">
               Fuel Type
             </Label>
-            <Select
-              value={fuelType}
-              onValueChange={(v) => setFuelType(v as FuelType)}
-            >
+            <Select value={fuelType} onValueChange={(v) => setFuelType(v)}>
               <SelectTrigger
                 id="car-fuelType"
                 className="h-8 text-sm"
@@ -842,8 +857,11 @@ export function CarInspectionForm() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value={FuelType.petrol}>Petrol</SelectItem>
-                <SelectItem value={FuelType.electric}>Electric</SelectItem>
+                <SelectItem value="petrol">Petrol</SelectItem>
+                <SelectItem value="diesel">Diesel</SelectItem>
+                <SelectItem value="cng">CNG</SelectItem>
+                <SelectItem value="lpg">LPG</SelectItem>
+                <SelectItem value="electric">Electric</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -1092,13 +1110,39 @@ export function CarInspectionForm() {
             >
               Inspection Date
             </Label>
+            <div className="flex gap-2">
+              <Input
+                id="car-inspectionDate"
+                type="date"
+                value={inspectionDate}
+                onChange={(e) => setInspectionDate(e.target.value)}
+                className="h-8 text-sm flex-1"
+                data-ocid="car.inspection_date.input"
+              />
+              <Input
+                id="car-inspectionTime"
+                type="time"
+                value={inspectionTime}
+                onChange={(e) => setInspectionTime(e.target.value)}
+                className="h-8 text-sm w-28"
+                data-ocid="car.inspection_time.input"
+              />
+            </div>
+          </div>
+          <div className="space-y-1">
+            <Label
+              htmlFor="car-inspectionPlace"
+              className="text-xs font-semibold"
+            >
+              Inspection Place
+            </Label>
             <Input
-              id="car-inspectionDate"
-              type="date"
-              value={inspectionDate}
-              onChange={(e) => setInspectionDate(e.target.value)}
+              id="car-inspectionPlace"
+              value={inspectionPlace}
+              onChange={(e) => setInspectionPlace(e.target.value)}
+              placeholder="City / Location"
               className="h-8 text-sm"
-              data-ocid="car.inspection_date.input"
+              data-ocid="car.inspection_place.input"
             />
           </div>
         </div>

@@ -278,7 +278,7 @@ interface PrintData {
   chassisNumber: string;
   engineNumber: string;
   ownerName: string;
-  relationship: string;
+  insuranceCompany: string;
   color: string;
   modelYear: string;
   fuelType: FuelType;
@@ -291,9 +291,11 @@ interface PrintData {
   parts: PartsState;
   vehiclePhotos: PhotoItem[];
   inspectionDate: string;
+  inspectionTime: string;
   remarks: string;
   signatureImage: string | null;
   proposerName: string;
+  inspectionPlace: string;
 }
 
 function buildPrintHTML(data: PrintData): string {
@@ -303,7 +305,7 @@ function buildPrintHTML(data: PrintData): string {
     chassisNumber,
     engineNumber,
     ownerName,
-    relationship,
+    insuranceCompany,
     color,
     modelYear,
     fuelType,
@@ -316,6 +318,8 @@ function buildPrintHTML(data: PrintData): string {
     parts,
     vehiclePhotos,
     inspectionDate,
+    inspectionTime,
+    inspectionPlace,
     remarks,
     signatureImage,
     proposerName,
@@ -363,7 +367,7 @@ function buildPrintHTML(data: PrintData): string {
         day: "2-digit",
         month: "2-digit",
         year: "numeric",
-      })
+      }) + (inspectionTime ? ` ${inspectionTime}` : "")
     : "_______________";
 
   return `<!DOCTYPE html>
@@ -421,8 +425,8 @@ function buildPrintHTML(data: PrintData): string {
       <tr>
         <td style="padding:3px 0;font-size:12px;color:#64748b">Name of Insured</td>
         <td style="padding:3px 0;font-size:12px;font-weight:600">: ${ownerName || "—"}</td>
-        <td style="padding:3px 0;font-size:12px;color:#64748b">Relationship</td>
-        <td style="padding:3px 0;font-size:12px;font-weight:600">: ${relationship || "—"}</td>
+        <td style="padding:3px 0;font-size:12px;color:#64748b">Insurance Company</td>
+        <td style="padding:3px 0;font-size:12px;font-weight:600">: ${insuranceCompany || "—"}</td>
       </tr>
       <tr>
         <td style="padding:3px 0;font-size:12px;color:#64748b">Colour</td>
@@ -447,6 +451,10 @@ function buildPrintHTML(data: PrintData): string {
         <td style="padding:3px 0;font-size:12px;font-weight:600">: ${engineCC || "—"}</td>
         <td style="padding:3px 0;font-size:12px;color:#64748b">Variant</td>
         <td style="padding:3px 0;font-size:12px;font-weight:600">: ${variant || "—"}</td>
+      </tr>
+      <tr>
+        <td style="padding:3px 0;font-size:12px;color:#64748b">Inspection Place</td>
+        <td colspan="3" style="padding:3px 0;font-size:12px;font-weight:600">: ${inspectionPlace || "—"}</td>
       </tr>
       ${
         notes
@@ -557,7 +565,7 @@ export function InspectionForm() {
   const [chassisNumber, setChassisNumber] = useState("");
   const [engineNumber, setEngineNumber] = useState("");
   const [ownerName, setOwnerName] = useState("");
-  const [relationship, setRelationship] = useState("");
+  const [insuranceCompany, setInsuranceCompany] = useState("");
   const [color, setColor] = useState("");
   const [modelYear, setModelYear] = useState("");
   const [fuelType, setFuelType] = useState<FuelType>(FuelType.petrol);
@@ -575,6 +583,8 @@ export function InspectionForm() {
   const [vehiclePhotos, setVehiclePhotos] = useState<PhotoItem[]>([]);
 
   const [inspectionDate, setInspectionDate] = useState("");
+  const [inspectionTime, setInspectionTime] = useState("");
+  const [inspectionPlace, setInspectionPlace] = useState("");
   const [remarks, setRemarks] = useState("");
   const [signatureImage, setSignatureImage] = useState<string | null>(null);
   const [proposerName, setProposerName] = useState("");
@@ -638,7 +648,7 @@ export function InspectionForm() {
     chassisNumber,
     engineNumber,
     ownerName,
-    relationship,
+    insuranceCompany,
     color,
     modelYear,
     fuelType,
@@ -651,6 +661,8 @@ export function InspectionForm() {
     parts,
     vehiclePhotos,
     inspectionDate,
+    inspectionTime,
+    inspectionPlace,
     remarks,
     signatureImage,
     proposerName,
@@ -673,7 +685,7 @@ export function InspectionForm() {
         chassisNumber: chassisNumber.trim(),
         engineNumber: engineNumber.trim(),
         ownerName: ownerName.trim(),
-        contactNumber: relationship.trim(),
+        contactNumber: insuranceCompany.trim(),
         color: color.trim(),
         manufacturingYear: BigInt(modelYear || new Date().getFullYear()),
         fuelType,
@@ -731,7 +743,7 @@ export function InspectionForm() {
       setChassisNumber("");
       setEngineNumber("");
       setOwnerName("");
-      setRelationship("");
+      setInsuranceCompany("");
       setColor("");
       setModelYear("");
       setFuelType(FuelType.petrol);
@@ -744,6 +756,7 @@ export function InspectionForm() {
       setParts(defaultParts);
       setVehiclePhotos([]);
       setInspectionDate("");
+      setInspectionPlace("");
       setRemarks("");
       setSignatureImage(null);
       setProposerName("");
@@ -833,16 +846,16 @@ export function InspectionForm() {
           </div>
 
           <div className="space-y-1">
-            <Label htmlFor="relationship" className="text-xs font-semibold">
-              Relationship of Representative
+            <Label htmlFor="insuranceCompany" className="text-xs font-semibold">
+              Insurance Company
             </Label>
             <Input
-              id="relationship"
-              value={relationship}
-              onChange={(e) => setRelationship(e.target.value)}
-              placeholder="Self / Spouse / Son..."
+              id="insuranceCompany"
+              value={insuranceCompany}
+              onChange={(e) => setInsuranceCompany(e.target.value)}
+              placeholder="Insurance Company Name"
               className="h-8 text-sm"
-              data-ocid="vehicle.relationship.input"
+              data-ocid="vehicle.insurancecompany.input"
             />
           </div>
 
@@ -1266,20 +1279,48 @@ export function InspectionForm() {
           </div>
         </div>
 
-        {/* Inspection Date */}
+        {/* Inspection Date & Place */}
         <div className="mb-4">
-          <div className="space-y-1">
-            <Label htmlFor="inspectionDate" className="text-xs font-semibold">
-              Inspection Date
-            </Label>
-            <Input
-              id="inspectionDate"
-              type="date"
-              value={inspectionDate}
-              onChange={(e) => setInspectionDate(e.target.value)}
-              className="h-8 text-sm max-w-xs"
-              data-ocid="declaration.date.input"
-            />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
+            <div className="space-y-1">
+              <Label htmlFor="inspectionDate" className="text-xs font-semibold">
+                Inspection Date
+              </Label>
+              <div className="flex gap-2">
+                <Input
+                  id="inspectionDate"
+                  type="date"
+                  value={inspectionDate}
+                  onChange={(e) => setInspectionDate(e.target.value)}
+                  className="h-8 text-sm flex-1"
+                  data-ocid="declaration.date.input"
+                />
+                <Input
+                  id="inspectionTime"
+                  type="time"
+                  value={inspectionTime}
+                  onChange={(e) => setInspectionTime(e.target.value)}
+                  className="h-8 text-sm w-28"
+                  data-ocid="declaration.time.input"
+                />
+              </div>
+            </div>
+            <div className="space-y-1">
+              <Label
+                htmlFor="inspectionPlace"
+                className="text-xs font-semibold"
+              >
+                Inspection Place
+              </Label>
+              <Input
+                id="inspectionPlace"
+                value={inspectionPlace}
+                onChange={(e) => setInspectionPlace(e.target.value)}
+                placeholder="City / Location"
+                className="h-8 text-sm"
+                data-ocid="declaration.place.input"
+              />
+            </div>
           </div>
         </div>
 

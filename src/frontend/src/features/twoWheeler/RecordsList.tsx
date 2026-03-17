@@ -102,7 +102,7 @@ function RecordDetail({ record }: { record: TwoWheeler }) {
           <p>{record.engineOrBatteryCapacity.toString()} cc</p>
         </div>
         <div>
-          <p className="text-xs text-muted-foreground">Relationship</p>
+          <p className="text-xs text-muted-foreground">Insurance Company</p>
           <p>{record.contactNumber || "—"}</p>
         </div>
       </div>
