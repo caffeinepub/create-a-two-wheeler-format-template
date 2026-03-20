@@ -396,7 +396,7 @@ function buildPrintHTML(data: PrintData): string {
     <div style="font-size:22px;font-weight:900;letter-spacing:2px;color:#1e293b">DINESH KUMAR JANGIR</div>
     <div style="font-size:13px;font-weight:600;color:#475569;margin-top:2px">Surveyor &amp; Loss Assessor</div>
     <div style="font-size:11px;color:#64748b;margin-top:4px">
-      Licence No.: <strong>SLA-121529</strong> &nbsp;|&nbsp; Validity: <strong>26.01.2026</strong> &nbsp;|&nbsp; Mob.: <strong>94132-24766</strong>
+      Licence No.: <strong>SLA-121529</strong> &nbsp;|&nbsp; Validity: <strong>26.01.2029</strong> &nbsp;|&nbsp; Mob.: <strong>94132-24766</strong>
     </div>
     <div style="font-size:11px;color:#64748b;margin-top:2px">
       10-RE-40, Tilak Nagar, Bhilwara (Raj.) &nbsp;|&nbsp; Email: dk24766@gmail.com
@@ -672,7 +672,7 @@ export function InspectionForm() {
     openPrintPopup(buildPrintHTML(getPrintData()));
   };
 
-  const handleGeneratePDF = () => {
+  const handleDownloadPDF = () => {
     openPrintPopup(buildPrintHTML(getPrintData()));
   };
 
@@ -1379,11 +1379,11 @@ export function InspectionForm() {
           type="button"
           variant="outline"
           className="gap-2"
-          onClick={handleGeneratePDF}
+          onClick={handleDownloadPDF}
           data-ocid="form.pdf_button"
         >
           <FileDown className="h-4 w-4" />
-          Generate PDF
+          Download PDF
         </Button>
       </div>
     </form>

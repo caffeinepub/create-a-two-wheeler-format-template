@@ -1,10 +1,11 @@
 import { Toaster } from "@/components/ui/sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Bike, Car } from "lucide-react";
+import { Bike, Car, Truck } from "lucide-react";
 import { useState } from "react";
 import { CarInspectionForm } from "./features/twoWheeler/CarInspectionForm";
 import { InspectionForm } from "./features/twoWheeler/InspectionForm";
 import { Letterhead } from "./features/twoWheeler/Letterhead";
+import { PickupInspectionForm } from "./features/twoWheeler/PickupInspectionForm";
 import { RecordsList } from "./features/twoWheeler/RecordsList";
 
 function App() {
@@ -15,7 +16,9 @@ function App() {
   const title =
     activeTab === "car"
       ? "Car Pre-Inspection Report"
-      : "Two-Wheeler Inspection Report";
+      : activeTab === "pickup"
+        ? "Pick-Up Pre-Inspection Report"
+        : "Two-Wheeler Inspection Report";
 
   return (
     <div className="min-h-screen bg-background">
@@ -57,6 +60,14 @@ function App() {
               <Car className="h-4 w-4" />
               Car
             </TabsTrigger>
+            <TabsTrigger
+              value="pickup"
+              className="flex items-center gap-2"
+              data-ocid="form.pickup.tab"
+            >
+              <Truck className="h-4 w-4" />
+              Pick-Up
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="two-wheeler">
@@ -65,6 +76,10 @@ function App() {
 
           <TabsContent value="car">
             <CarInspectionForm />
+          </TabsContent>
+
+          <TabsContent value="pickup">
+            <PickupInspectionForm />
           </TabsContent>
         </Tabs>
 
