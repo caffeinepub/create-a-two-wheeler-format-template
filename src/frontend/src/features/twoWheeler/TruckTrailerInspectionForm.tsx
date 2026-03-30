@@ -26,168 +26,118 @@ import { useCreateTwoWheeler } from "./useTwoWheelers";
 
 type Condition = "Intact" | "Missing" | "Damaged" | "NA" | "";
 
-interface CarPartsState {
+interface TruckPartsState {
+  headlightLeft: Condition;
+  headlightRight: Condition;
+  fogLampLeft: Condition;
+  fogLampRight: Condition;
+  indicatorLightLeft: Condition;
+  indicatorLightRight: Condition;
   frontBumper: Condition;
   grill: Condition;
-  headLamp: Condition;
-  sideTurnLight: Condition;
-  indicatorLight: Condition;
-  fogLamp: Condition;
-  frontPanel: Condition;
+  fenderMudguardsRight: Condition;
+  fenderMudguardsLeft: Condition;
+  cowl: Condition;
   bonnet: Condition;
-  leftApron: Condition;
-  rightApron: Condition;
-  leftFrontFender: Condition;
-  leftFrontDoor: Condition;
-  leftRearDoor: Condition;
-  leftPillarFront: Condition;
-  leftPillarCenter: Condition;
-  leftPillarRear: Condition;
-  leftRunningBoard: Condition;
-  leftQtrPanel: Condition;
-  boot: Condition;
+  rearLightLeft: Condition;
+  rearLightRight: Condition;
+  silencer: Condition;
   rearBumper: Condition;
-  tailLamp: Condition;
-  rightFrontFender: Condition;
-  rightFrontDoor: Condition;
-  rightRearDoor: Condition;
-  rightPillarFront: Condition;
-  rightPillarCenter: Condition;
-  rightPillarRear: Condition;
-  rightRunningBoard: Condition;
-  rightQtrPanel: Condition;
-  floorSilencer: Condition;
-  rrViewMirror: Condition;
+  rightDoor: Condition;
+  leftDoor: Condition;
+  leftSideBody: Condition;
+  rightSideBody: Condition;
+  chassisFrame: Condition;
+  fuelTank: Condition;
+  rearViewMirrorLeft: Condition;
+  rearViewMirrorRight: Condition;
+  rearBody: Condition;
+  loadBodyFlooring: Condition;
+  cabinCondition: Condition;
+  backGate: Condition;
+  trailerBody: Condition;
+  floor: Condition;
   tyresRim: Condition;
   frontWindShieldGlass: Condition;
-  leftFrontDoorGlass: Condition;
-  rightFrontDoorGlass: Condition;
-  leftRearDoorGlass: Condition;
-  rightRearDoorGlass: Condition;
-  rearWindShieldGlass: Condition;
+  leftWindowGlasses: Condition;
+  rightWindowGlasses: Condition;
+  cabinGlassBack: Condition;
 }
 
-const defaultParts: CarPartsState = {
+const defaultParts: TruckPartsState = {
+  headlightLeft: "",
+  headlightRight: "",
+  fogLampLeft: "",
+  fogLampRight: "",
+  indicatorLightLeft: "",
+  indicatorLightRight: "",
   frontBumper: "",
   grill: "",
-  headLamp: "",
-  sideTurnLight: "",
-  indicatorLight: "",
-  fogLamp: "",
-  frontPanel: "",
+  fenderMudguardsRight: "",
+  fenderMudguardsLeft: "",
+  cowl: "",
   bonnet: "",
-  leftApron: "",
-  rightApron: "",
-  leftFrontFender: "",
-  leftFrontDoor: "",
-  leftRearDoor: "",
-  leftPillarFront: "",
-  leftPillarCenter: "",
-  leftPillarRear: "",
-  leftRunningBoard: "",
-  leftQtrPanel: "",
-  boot: "",
+  rearLightLeft: "",
+  rearLightRight: "",
+  silencer: "",
   rearBumper: "",
-  tailLamp: "",
-  rightFrontFender: "",
-  rightFrontDoor: "",
-  rightRearDoor: "",
-  rightPillarFront: "",
-  rightPillarCenter: "",
-  rightPillarRear: "",
-  rightRunningBoard: "",
-  rightQtrPanel: "",
-  floorSilencer: "",
-  rrViewMirror: "",
+  rightDoor: "",
+  leftDoor: "",
+  leftSideBody: "",
+  rightSideBody: "",
+  chassisFrame: "",
+  fuelTank: "",
+  rearViewMirrorLeft: "",
+  rearViewMirrorRight: "",
+  rearBody: "",
+  loadBodyFlooring: "",
+  cabinCondition: "",
+  backGate: "",
+  trailerBody: "",
+  floor: "",
   tyresRim: "",
   frontWindShieldGlass: "",
-  leftFrontDoorGlass: "",
-  rightFrontDoorGlass: "",
-  leftRearDoorGlass: "",
-  rightRearDoorGlass: "",
-  rearWindShieldGlass: "",
+  leftWindowGlasses: "",
+  rightWindowGlasses: "",
+  cabinGlassBack: "",
 };
 
-const allIntactParts: CarPartsState = {
-  frontBumper: "Intact",
-  grill: "Intact",
-  headLamp: "Intact",
-  sideTurnLight: "Intact",
-  indicatorLight: "Intact",
-  fogLamp: "Intact",
-  frontPanel: "Intact",
-  bonnet: "Intact",
-  leftApron: "Intact",
-  rightApron: "Intact",
-  leftFrontFender: "Intact",
-  leftFrontDoor: "Intact",
-  leftRearDoor: "Intact",
-  leftPillarFront: "Intact",
-  leftPillarCenter: "Intact",
-  leftPillarRear: "Intact",
-  leftRunningBoard: "Intact",
-  leftQtrPanel: "Intact",
-  boot: "Intact",
-  rearBumper: "Intact",
-  tailLamp: "Intact",
-  rightFrontFender: "Intact",
-  rightFrontDoor: "Intact",
-  rightRearDoor: "Intact",
-  rightPillarFront: "Intact",
-  rightPillarCenter: "Intact",
-  rightPillarRear: "Intact",
-  rightRunningBoard: "Intact",
-  rightQtrPanel: "Intact",
-  floorSilencer: "Intact",
-  rrViewMirror: "Intact",
-  tyresRim: "Intact",
-  frontWindShieldGlass: "Intact",
-  leftFrontDoorGlass: "Intact",
-  rightFrontDoorGlass: "Intact",
-  leftRearDoorGlass: "Intact",
-  rightRearDoorGlass: "Intact",
-  rearWindShieldGlass: "Intact",
-};
-
-const ALL_CAR_PARTS: { key: keyof CarPartsState; label: string }[] = [
+const ALL_TRUCK_PARTS: { key: keyof TruckPartsState; label: string }[] = [
+  { key: "headlightLeft", label: "Headlight - Left" },
+  { key: "headlightRight", label: "Headlight - Right" },
+  { key: "fogLampLeft", label: "Foglamp - Left" },
+  { key: "fogLampRight", label: "Foglamp - Right" },
+  { key: "indicatorLightLeft", label: "Indicator Light Left" },
+  { key: "indicatorLightRight", label: "Indicator Light Right" },
   { key: "frontBumper", label: "Front Bumper" },
   { key: "grill", label: "Grill" },
-  { key: "headLamp", label: "Head Lamp (LT/RT)" },
-  { key: "sideTurnLight", label: "Side Turn Light (LT/RT)" },
-  { key: "indicatorLight", label: "Indicator Light (LT/RT)" },
-  { key: "fogLamp", label: "Fog Lamp (LT/RT)" },
-  { key: "frontPanel", label: "Front Panel" },
+  { key: "fenderMudguardsRight", label: "Fender / Mudguards Right" },
+  { key: "fenderMudguardsLeft", label: "Fender / Mudguards Left" },
+  { key: "cowl", label: "Cowl" },
   { key: "bonnet", label: "Bonnet" },
-  { key: "leftApron", label: "Left Apron" },
-  { key: "rightApron", label: "Right Apron" },
-  { key: "leftFrontFender", label: "Left Front Fender" },
-  { key: "leftFrontDoor", label: "Left front Door" },
-  { key: "leftRearDoor", label: "Left Rear Door" },
-  { key: "leftPillarFront", label: "Left Pillar Front (A)" },
-  { key: "leftPillarCenter", label: "Left Pillar Center (B)" },
-  { key: "leftPillarRear", label: "Left Pillar Rear (C)" },
-  { key: "leftRunningBoard", label: "Left Running Board" },
-  { key: "leftQtrPanel", label: "Left Qtr. Panel" },
-  { key: "boot", label: "Boot" },
+  { key: "rearLightLeft", label: "Rear Light - Left" },
+  { key: "rearLightRight", label: "Rear Light - Right" },
+  { key: "silencer", label: "Silencer" },
   { key: "rearBumper", label: "Rear Bumper" },
-  { key: "tailLamp", label: "Tail lamp (LT/RT)" },
-  { key: "rightFrontFender", label: "Right Front Fender" },
-  { key: "rightFrontDoor", label: "Right front Door" },
-  { key: "rightRearDoor", label: "Right Rear Door" },
-  { key: "rightPillarFront", label: "Right Pillar Front (A)" },
-  { key: "rightPillarCenter", label: "Right Pillar Center (B)" },
-  { key: "rightPillarRear", label: "Right Pillar Rear (C)" },
-  { key: "rightRunningBoard", label: "Right Running Board" },
-  { key: "rightQtrPanel", label: "Right Qtr. Panel" },
-  { key: "floorSilencer", label: "Floor / Silencer" },
-  { key: "rrViewMirror", label: "Rr View Mirror (LT/RT)" },
+  { key: "rightDoor", label: "Right Door" },
+  { key: "leftDoor", label: "Left Door" },
+  { key: "leftSideBody", label: "Left Side Body" },
+  { key: "rightSideBody", label: "Right Side Body" },
+  { key: "chassisFrame", label: "Chassis Frame" },
+  { key: "fuelTank", label: "Fuel Tank" },
+  { key: "rearViewMirrorLeft", label: "Rear View Mirror Left" },
+  { key: "rearViewMirrorRight", label: "Rear View Mirror Right" },
+  { key: "rearBody", label: "Rear Body" },
+  { key: "loadBodyFlooring", label: "Load Body Flooring" },
+  { key: "cabinCondition", label: "Cabin Condition" },
+  { key: "backGate", label: "Back Gate" },
+  { key: "trailerBody", label: "Trailer Body" },
+  { key: "floor", label: "Floor" },
   { key: "tyresRim", label: "Tyres / Rim" },
   { key: "frontWindShieldGlass", label: "Front Wind Shield Glass" },
-  { key: "leftFrontDoorGlass", label: "Left Front Door Glass" },
-  { key: "rightFrontDoorGlass", label: "Right Front Door Glass" },
-  { key: "leftRearDoorGlass", label: "Left Rear Door Glass" },
-  { key: "rightRearDoorGlass", label: "Right Rear Door Glass" },
-  { key: "rearWindShieldGlass", label: "Rear Wind Shield Glass" },
+  { key: "leftWindowGlasses", label: "Left Window Glasses" },
+  { key: "rightWindowGlasses", label: "Right Window Glasses" },
+  { key: "cabinGlassBack", label: "Cabin Glass Back" },
 ];
 
 const CONDITION_OPTIONS = [
@@ -237,7 +187,7 @@ function ConditionButtons({
             key={opt.value}
             type="button"
             onClick={() => onChange(isActive ? "" : (opt.value as Condition))}
-            data-ocid={`car_parts.${partKey}.toggle`}
+            data-ocid={`truck_parts.${partKey}.toggle`}
             className={`
               inline-flex items-center gap-0.5 px-2 py-1.5 rounded text-xs font-semibold
               border transition-all duration-150 select-none
@@ -281,7 +231,7 @@ function openPrintPopup(html: string) {
   setTimeout(() => w.print(), 600);
 }
 
-interface CarPrintData {
+interface TruckPrintData {
   regNumber: string;
   odometer: string;
   chassisNumber: string;
@@ -295,8 +245,9 @@ interface CarPrintData {
   model: string;
   engineCC: string;
   variant: string;
+  vehicleSubType: string;
   notes: string;
-  parts: CarPartsState;
+  parts: TruckPartsState;
   vehiclePhotos: PhotoItem[];
   inspectionDate: string;
   inspectionTime: string;
@@ -305,7 +256,7 @@ interface CarPrintData {
   inspectionPlace: string;
 }
 
-function buildCarPrintHTML(data: CarPrintData): string {
+function buildTruckPrintHTML(data: TruckPrintData): string {
   const {
     regNumber,
     odometer,
@@ -320,6 +271,7 @@ function buildCarPrintHTML(data: CarPrintData): string {
     model,
     engineCC,
     variant,
+    vehicleSubType,
     notes,
     parts,
     vehiclePhotos,
@@ -330,7 +282,7 @@ function buildCarPrintHTML(data: CarPrintData): string {
     surveyorSignatureImage,
   } = data;
 
-  const partsRows = ALL_CAR_PARTS.map((p, idx) => {
+  const partsRows = ALL_TRUCK_PARTS.map((p, idx) => {
     const cond = parts[p.key] || "\u2014";
     const badgeStyle = conditionBadgeStyle(parts[p.key]);
     const bg = idx % 2 === 0 ? "#fff" : "#f8fafc";
@@ -381,12 +333,13 @@ function buildCarPrintHTML(data: CarPrintData): string {
     electric: "Electric",
   };
   const fuelDisplay = fuelLabel[fuelType] || fuelType;
+  const subTypeDisplay = vehicleSubType || "\u2014";
 
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Car Pre-Inspection Report \u2014 ${regNumber || "New"}</title>
+  <title>Truck/Trailer Pre-Inspection Report \u2014 ${regNumber || "New"}</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: Arial, sans-serif; background: #fff; color: #1e293b; font-size: 13px; }
@@ -416,7 +369,7 @@ function buildCarPrintHTML(data: CarPrintData): string {
   </div>
 
   <!-- Report title -->
-  <div style="text-align:center;font-size:15px;font-weight:800;letter-spacing:1px;margin-bottom:14px;text-transform:uppercase">Car Pre-Inspection Report</div>
+  <div style="text-align:center;font-size:15px;font-weight:800;letter-spacing:1px;margin-bottom:14px;text-transform:uppercase">Truck / Trailer Pre-Inspection Report</div>
 
   <!-- Vehicle Details -->
   <h3 style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;border-bottom:2px solid #1e293b;padding-bottom:4px;margin-bottom:8px">Vehicle Details</h3>
@@ -449,24 +402,26 @@ function buildCarPrintHTML(data: CarPrintData): string {
       <tr>
         <td style="padding:3px 0;font-size:12px;color:#64748b">Fuel Type</td>
         <td style="padding:3px 0;font-size:12px;font-weight:600">: ${fuelDisplay}</td>
+        <td style="padding:3px 0;font-size:12px;color:#64748b">Vehicle Sub-Type</td>
+        <td style="padding:3px 0;font-size:12px;font-weight:600">: ${subTypeDisplay}</td>
+      </tr>
+      <tr>
         <td style="padding:3px 0;font-size:12px;color:#64748b">Brand</td>
         <td style="padding:3px 0;font-size:12px;font-weight:600">: ${brand || "\u2014"}</td>
-      </tr>
-      <tr>
         <td style="padding:3px 0;font-size:12px;color:#64748b">Model</td>
         <td style="padding:3px 0;font-size:12px;font-weight:600">: ${model || "\u2014"}</td>
+      </tr>
+      <tr>
         <td style="padding:3px 0;font-size:12px;color:#64748b">Variant</td>
         <td style="padding:3px 0;font-size:12px;font-weight:600">: ${variant || "\u2014"}</td>
+        <td style="padding:3px 0;font-size:12px;color:#64748b">Engine CC / GVW</td>
+        <td style="padding:3px 0;font-size:12px;font-weight:600">: ${engineCC || "\u2014"}</td>
       </tr>
       <tr>
-        <td style="padding:3px 0;font-size:12px;color:#64748b">Engine CC / Battery</td>
-        <td style="padding:3px 0;font-size:12px;font-weight:600">: ${engineCC ? `${engineCC} cc` : "\u2014"}</td>
         <td style="padding:3px 0;font-size:12px;color:#64748b">Inspection Date</td>
         <td style="padding:3px 0;font-size:12px;font-weight:600">: ${dateDisplay}</td>
-      </tr>
-      <tr>
         <td style="padding:3px 0;font-size:12px;color:#64748b">Inspection Place</td>
-        <td colspan="3" style="padding:3px 0;font-size:12px;font-weight:600">: ${inspectionPlace || "\u2014"}</td>
+        <td style="padding:3px 0;font-size:12px;font-weight:600">: ${inspectionPlace || "\u2014"}</td>
       </tr>
       ${notes ? `<tr><td style="padding:3px 0;font-size:12px;color:#64748b">Notes</td><td colspan="3" style="padding:3px 0;font-size:12px;font-weight:600">: ${notes}</td></tr>` : ""}
     </tbody>
@@ -500,12 +455,8 @@ function buildCarPrintHTML(data: CarPrintData): string {
   </div>
 
   <!-- Signature Block -->
-  <div style="margin-top:20px;display:flex;justify-content:space-between;align-items:flex-start;gap:20px">
-    <div style="flex:1">
-      <div style="font-size:11px;font-weight:700;margin-bottom:4px">Name &amp; Sign of Proposer</div>
-      <div style="border-bottom:2px solid #334155;width:200px;height:60px;margin-top:6px"></div>
-    </div>
-    <div style="flex:1">
+  <div style="margin-top:20px;display:flex;justify-content:flex-end;align-items:flex-start;gap:20px">
+    <div style="flex:1;max-width:260px">
       <div style="font-size:11px;font-weight:700;margin-bottom:4px">Name &amp; Sign of Surveyor</div>
       ${surveyorSignHTML}
       <div style="font-size:11px;margin-top:6px;color:#334155">DINESH KUMAR JANGIR</div>
@@ -524,7 +475,7 @@ function buildCarPrintHTML(data: CarPrintData): string {
 </html>`;
 }
 
-export function CarInspectionForm() {
+export function TruckTrailerInspectionForm() {
   const { mutateAsync: createRecord, isPending } = useCreateTwoWheeler();
 
   // Vehicle details
@@ -536,7 +487,8 @@ export function CarInspectionForm() {
   const [insuranceCompany, setInsuranceCompany] = useState("");
   const [color, setColor] = useState("");
   const [modelYear, setModelYear] = useState("");
-  const [fuelType, setFuelType] = useState<string>("petrol");
+  const [fuelType, setFuelType] = useState<string>("diesel");
+  const [vehicleSubType, setVehicleSubType] = useState<string>("truck");
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
   const [variant, setVariant] = useState("");
@@ -544,23 +496,44 @@ export function CarInspectionForm() {
   const [notes, setNotes] = useState("");
 
   // Parts
-  const [parts, setParts] = useState<CarPartsState>(defaultParts);
+  const [parts, setParts] = useState<TruckPartsState>(defaultParts);
 
   // Photos
   const [vehiclePhotos, setVehiclePhotos] = useState<PhotoItem[]>([]);
   const photoInputRef = useRef<HTMLInputElement>(null);
 
-  // Declaration
-  const [inspectionDate, setInspectionDate] = useState("");
-  const [inspectionTime, setInspectionTime] = useState("");
-  const [inspectionPlace, setInspectionPlace] = useState("");
-  const [remarks, setRemarks] = useState("");
+  // Signature
   const [surveyorSignatureImage, setSurveyorSignatureImage] = useState<
     string | null
   >(null);
   const surveyorSignatureInputRef = useRef<HTMLInputElement>(null);
 
-  const markAllIntact = () => setParts(allIntactParts);
+  // Inspection info
+  const [inspectionDate, setInspectionDate] = useState("");
+  const [inspectionTime, setInspectionTime] = useState("");
+  const [inspectionPlace, setInspectionPlace] = useState("");
+  const [remarks, setRemarks] = useState("");
+
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+    for (const file of Array.from(files)) {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const data = ev.target?.result as string;
+        setVehiclePhotos((prev) => [
+          ...prev,
+          { id: Math.random().toString(36).slice(2), data },
+        ]);
+      };
+      reader.readAsDataURL(file);
+    }
+    e.target.value = "";
+  };
+
+  const removePhoto = (id: string) => {
+    setVehiclePhotos((prev) => prev.filter((p) => p.id !== id));
+  };
 
   const handleSurveyorSignatureUpload = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -569,44 +542,21 @@ export function CarInspectionForm() {
     if (!file) return;
     const reader = new FileReader();
     reader.onload = (ev) => {
-      const result = ev.target?.result;
-      if (typeof result === "string") {
-        setSurveyorSignatureImage(result);
-      }
+      setSurveyorSignatureImage(ev.target?.result as string);
     };
     reader.readAsDataURL(file);
     e.target.value = "";
   };
 
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
-    const fileArray = Array.from(files);
-    let loaded = 0;
-    const results: PhotoItem[] = [];
-    fileArray.forEach((file, idx) => {
-      const id = `${Date.now()}-${idx}-${file.name}`;
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        const result = ev.target?.result;
-        if (typeof result === "string") {
-          results[idx] = { id, data: result };
-        }
-        loaded++;
-        if (loaded === fileArray.length) {
-          setVehiclePhotos((prev) => [...prev, ...results.filter(Boolean)]);
-        }
-      };
-      reader.readAsDataURL(file);
-    });
-    e.target.value = "";
+  const markAllIntact = () => {
+    const filled: TruckPartsState = {} as TruckPartsState;
+    for (const k of Object.keys(defaultParts) as (keyof TruckPartsState)[]) {
+      filled[k] = "Intact";
+    }
+    setParts(filled);
   };
 
-  const removePhoto = (id: string) => {
-    setVehiclePhotos((prev) => prev.filter((p) => p.id !== id));
-  };
-
-  const getPrintData = (): CarPrintData => ({
+  const getPrintData = (): TruckPrintData => ({
     regNumber,
     odometer,
     chassisNumber,
@@ -616,6 +566,7 @@ export function CarInspectionForm() {
     color,
     modelYear,
     fuelType,
+    vehicleSubType,
     brand,
     model,
     engineCC,
@@ -649,36 +600,36 @@ export function CarInspectionForm() {
     variant: variant.trim() || undefined,
     notes: remarks || notes,
     vehicleCondition: {
-      headLight: parts.headLamp || undefined,
+      headLight: parts.headlightLeft || undefined,
       frontScoop: parts.bonnet || undefined,
       bodyTypeScooter: parts.frontBumper || undefined,
       speedometerPanel: undefined,
       alloyOrWheelRim: parts.tyresRim || undefined,
       fuelGauge: undefined,
-      mudGuardFront: parts.frontPanel || undefined,
-      frontShockAbsorber: parts.leftFrontFender || undefined,
-      rearShockAbsorber: parts.rightFrontFender || undefined,
-      frontLHIndicator: parts.indicatorLight || undefined,
-      frontRHIndicator: parts.fogLamp || undefined,
+      mudGuardFront: parts.fenderMudguardsLeft || undefined,
+      frontShockAbsorber: undefined,
+      rearShockAbsorber: undefined,
+      frontLHIndicator: parts.indicatorLightLeft || undefined,
+      frontRHIndicator: parts.indicatorLightRight || undefined,
       handleBar: undefined,
       remoteKeyWorking: undefined,
-      fuelTank: undefined,
-      sideCovers: undefined,
-      mainStand: parts.leftRunningBoard || undefined,
-      mudGuardRear: undefined,
+      fuelTank: parts.fuelTank || undefined,
+      sideCovers: parts.leftSideBody || undefined,
+      mainStand: undefined,
+      mudGuardRear: parts.fenderMudguardsRight || undefined,
       gearShiftLever: undefined,
       discBrakesFront: undefined,
       brakesCondition: undefined,
       rearBrakeLever: undefined,
-      silencerCover: undefined,
+      silencerCover: parts.silencer || undefined,
       rearShockAbsorberType: undefined,
       sideStand: undefined,
       engineFunction: undefined,
-      tailLamp: parts.tailLamp || undefined,
+      tailLamp: parts.rearLightLeft || undefined,
       rearLHIndicator: undefined,
       rearRHIndicator: undefined,
       forkBend: undefined,
-      silencer: parts.floorSilencer || undefined,
+      silencer: parts.silencer || undefined,
       discBrakesRear: undefined,
       clutchCondition: undefined,
       acceleratorCondition: undefined,
@@ -692,20 +643,34 @@ export function CarInspectionForm() {
     createRecord(buildRecord())
       .then(() => toast.success("Record auto-saved."))
       .catch(() => {});
-    openPrintPopup(buildCarPrintHTML(getPrintData()));
+    const html = buildTruckPrintHTML(getPrintData());
+    openPrintPopup(html);
   };
 
   const handleDownloadPDF = () => {
     createRecord(buildRecord())
       .then(() => toast.success("Record auto-saved."))
       .catch(() => {});
-    const data = getPrintData();
-    const html = buildCarPrintHTML(data);
-    openPrintPopup(html);
+    const html = buildTruckPrintHTML(getPrintData());
+    const blob = new Blob([html], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `truck-trailer-preinspection-${regNumber || "vehicle"}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 200);
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (!regNumber.trim()) {
+      toast.error("Registration Number is required.");
+      return;
+    }
     try {
       const record: TwoWheeler = {
         registrationNumber: regNumber.trim(),
@@ -726,36 +691,36 @@ export function CarInspectionForm() {
         variant: variant.trim() || undefined,
         notes: remarks || notes,
         vehicleCondition: {
-          headLight: parts.headLamp || undefined,
+          headLight: parts.headlightLeft || undefined,
           frontScoop: parts.bonnet || undefined,
           bodyTypeScooter: parts.frontBumper || undefined,
           speedometerPanel: undefined,
           alloyOrWheelRim: parts.tyresRim || undefined,
           fuelGauge: undefined,
-          mudGuardFront: parts.frontPanel || undefined,
-          frontShockAbsorber: parts.leftFrontFender || undefined,
-          rearShockAbsorber: parts.rightFrontFender || undefined,
-          frontLHIndicator: parts.indicatorLight || undefined,
-          frontRHIndicator: parts.fogLamp || undefined,
+          mudGuardFront: parts.fenderMudguardsLeft || undefined,
+          frontShockAbsorber: undefined,
+          rearShockAbsorber: undefined,
+          frontLHIndicator: parts.indicatorLightLeft || undefined,
+          frontRHIndicator: parts.indicatorLightRight || undefined,
           handleBar: undefined,
           remoteKeyWorking: undefined,
-          fuelTank: undefined,
-          sideCovers: undefined,
-          mainStand: parts.leftRunningBoard || undefined,
-          mudGuardRear: undefined,
+          fuelTank: parts.fuelTank || undefined,
+          sideCovers: parts.leftSideBody || undefined,
+          mainStand: undefined,
+          mudGuardRear: parts.fenderMudguardsRight || undefined,
           gearShiftLever: undefined,
           discBrakesFront: undefined,
           brakesCondition: undefined,
           rearBrakeLever: undefined,
-          silencerCover: undefined,
+          silencerCover: parts.silencer || undefined,
           rearShockAbsorberType: undefined,
           sideStand: undefined,
           engineFunction: undefined,
-          tailLamp: parts.tailLamp || undefined,
+          tailLamp: parts.rearLightLeft || undefined,
           rearLHIndicator: undefined,
           rearRHIndicator: undefined,
           forkBend: undefined,
-          silencer: parts.floorSilencer || undefined,
+          silencer: parts.silencer || undefined,
           discBrakesRear: undefined,
           clutchCondition: undefined,
           acceleratorCondition: undefined,
@@ -764,10 +729,8 @@ export function CarInspectionForm() {
           paintCondition: undefined,
         },
       };
-
       await createRecord(record);
-      toast.success("Car record saved successfully!");
-
+      toast.success("Truck/Trailer record saved successfully!");
       setRegNumber("");
       setOdometer("");
       setChassisNumber("");
@@ -776,7 +739,8 @@ export function CarInspectionForm() {
       setInsuranceCompany("");
       setColor("");
       setModelYear("");
-      setFuelType("petrol");
+      setFuelType("diesel");
+      setVehicleSubType("truck");
       setBrand("");
       setModel("");
       setEngineCC("");
@@ -785,6 +749,7 @@ export function CarInspectionForm() {
       setParts(defaultParts);
       setVehiclePhotos([]);
       setInspectionDate("");
+      setInspectionTime("");
       setInspectionPlace("");
       setRemarks("");
       setSurveyorSignatureImage(null);
@@ -794,7 +759,7 @@ export function CarInspectionForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} id="car-inspection-form">
+    <form onSubmit={handleSubmit} id="truck-trailer-inspection-form">
       {/* Vehicle Details Section */}
       <div className="mb-6">
         <h2 className="text-sm font-bold uppercase tracking-widest text-primary border-b border-primary/40 pb-1 mb-4">
@@ -802,134 +767,166 @@ export function CarInspectionForm() {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
           <div className="space-y-1">
-            <Label htmlFor="car-ownerName" className="text-xs font-semibold">
+            <Label htmlFor="truck-ownerName" className="text-xs font-semibold">
               Name of Insured
             </Label>
             <Input
-              id="car-ownerName"
+              id="truck-ownerName"
               value={ownerName}
               onChange={(e) => setOwnerName(e.target.value)}
               className="h-8 text-sm"
-              data-ocid="car.owner.input"
+              data-ocid="truck.owner.input"
             />
           </div>
 
           <div className="space-y-1">
-            <Label htmlFor="car-regNumber" className="text-xs font-semibold">
+            <Label htmlFor="truck-regNumber" className="text-xs font-semibold">
               Registration Number *
             </Label>
             <Input
-              id="car-regNumber"
+              id="truck-regNumber"
               value={regNumber}
               onChange={(e) => setRegNumber(e.target.value)}
               required
               placeholder="RJ-XX-XX-XXXX"
               className="h-8 text-sm"
-              data-ocid="car.reg_number.input"
+              data-ocid="truck.reg_number.input"
             />
           </div>
 
           <div className="space-y-1">
-            <Label htmlFor="car-odometer" className="text-xs font-semibold">
+            <Label htmlFor="truck-odometer" className="text-xs font-semibold">
               Odometer Reading (km) *
             </Label>
             <Input
-              id="car-odometer"
+              id="truck-odometer"
               type="number"
               value={odometer}
               onChange={(e) => setOdometer(e.target.value)}
               required
-              placeholder="e.g. 35000"
+              placeholder="e.g. 85000"
               className="h-8 text-sm"
-              data-ocid="car.odometer.input"
+              data-ocid="truck.odometer.input"
             />
           </div>
 
           <div className="space-y-1">
             <Label
-              htmlFor="car-chassisNumber"
+              htmlFor="truck-chassisNumber"
               className="text-xs font-semibold"
             >
               Chassis Number *
             </Label>
             <Input
-              id="car-chassisNumber"
+              id="truck-chassisNumber"
               value={chassisNumber}
               onChange={(e) => setChassisNumber(e.target.value)}
               required
               className="h-8 text-sm"
-              data-ocid="car.chassis.input"
-            />
-          </div>
-
-          <div className="space-y-1">
-            <Label htmlFor="car-engineNumber" className="text-xs font-semibold">
-              Engine Number *
-            </Label>
-            <Input
-              id="car-engineNumber"
-              value={engineNumber}
-              onChange={(e) => setEngineNumber(e.target.value)}
-              required
-              className="h-8 text-sm"
-              data-ocid="car.engine.input"
+              data-ocid="truck.chassis.input"
             />
           </div>
 
           <div className="space-y-1">
             <Label
-              htmlFor="car-insuranceCompany"
+              htmlFor="truck-engineNumber"
+              className="text-xs font-semibold"
+            >
+              Engine Number *
+            </Label>
+            <Input
+              id="truck-engineNumber"
+              value={engineNumber}
+              onChange={(e) => setEngineNumber(e.target.value)}
+              required
+              className="h-8 text-sm"
+              data-ocid="truck.engine.input"
+            />
+          </div>
+
+          <div className="space-y-1">
+            <Label
+              htmlFor="truck-insuranceCompany"
               className="text-xs font-semibold"
             >
               Insurance Company
             </Label>
             <Input
-              id="car-insuranceCompany"
+              id="truck-insuranceCompany"
               value={insuranceCompany}
               onChange={(e) => setInsuranceCompany(e.target.value)}
               className="h-8 text-sm"
-              data-ocid="car.insuranceCompany.input"
+              data-ocid="truck.insurance_company.input"
             />
           </div>
 
           <div className="space-y-1">
-            <Label htmlFor="car-color" className="text-xs font-semibold">
+            <Label htmlFor="truck-color" className="text-xs font-semibold">
               Colour
             </Label>
             <Input
-              id="car-color"
+              id="truck-color"
               value={color}
               onChange={(e) => setColor(e.target.value)}
-              placeholder="White, Silver..."
+              placeholder="White, Red..."
               className="h-8 text-sm"
-              data-ocid="car.color.input"
+              data-ocid="truck.color.input"
             />
           </div>
 
           <div className="space-y-1">
-            <Label htmlFor="car-modelYear" className="text-xs font-semibold">
+            <Label htmlFor="truck-modelYear" className="text-xs font-semibold">
               Model Year
             </Label>
             <Input
-              id="car-modelYear"
+              id="truck-modelYear"
               type="number"
               value={modelYear}
               onChange={(e) => setModelYear(e.target.value)}
-              placeholder="2022"
+              placeholder="2020"
               className="h-8 text-sm"
-              data-ocid="car.model_year.input"
+              data-ocid="truck.model_year.input"
             />
           </div>
 
           <div className="space-y-1">
-            <Label htmlFor="car-fuelType" className="text-xs font-semibold">
+            <Label
+              htmlFor="truck-vehicleSubType"
+              className="text-xs font-semibold"
+            >
+              Vehicle Sub-Type
+            </Label>
+            <Select
+              value={vehicleSubType}
+              onValueChange={(v) => setVehicleSubType(v)}
+            >
+              <SelectTrigger
+                id="truck-vehicleSubType"
+                className="h-8 text-sm"
+                data-ocid="truck.vehicle_sub_type.select"
+              >
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="truck">Truck</SelectItem>
+                <SelectItem value="trailer">Trailer</SelectItem>
+                <SelectItem value="tanker">Tanker</SelectItem>
+                <SelectItem value="tipper">Tipper</SelectItem>
+                <SelectItem value="container">Container</SelectItem>
+                <SelectItem value="other">Other</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-1">
+            <Label htmlFor="truck-fuelType" className="text-xs font-semibold">
               Fuel Type
             </Label>
             <Select value={fuelType} onValueChange={(v) => setFuelType(v)}>
               <SelectTrigger
-                id="car-fuelType"
+                id="truck-fuelType"
                 className="h-8 text-sm"
-                data-ocid="car.fuel_type.select"
+                data-ocid="truck.fuel_type.select"
               >
                 <SelectValue />
               </SelectTrigger>
@@ -944,76 +941,75 @@ export function CarInspectionForm() {
           </div>
 
           <div className="space-y-1">
-            <Label htmlFor="car-brand" className="text-xs font-semibold">
+            <Label htmlFor="truck-brand" className="text-xs font-semibold">
               Brand *
             </Label>
             <Input
-              id="car-brand"
+              id="truck-brand"
               value={brand}
               onChange={(e) => setBrand(e.target.value)}
               required
-              placeholder="Maruti, Hyundai, Tata, Honda..."
+              placeholder="Tata, Ashok Leyland, Eicher..."
               className="h-8 text-sm"
-              data-ocid="car.brand.input"
+              data-ocid="truck.brand.input"
             />
           </div>
 
           <div className="space-y-1">
-            <Label htmlFor="car-model" className="text-xs font-semibold">
+            <Label htmlFor="truck-model" className="text-xs font-semibold">
               Model *
             </Label>
             <Input
-              id="car-model"
+              id="truck-model"
               value={model}
               onChange={(e) => setModel(e.target.value)}
               required
-              placeholder="Swift, i20, Nexon..."
+              placeholder="407, 1109, Pro 1009..."
               className="h-8 text-sm"
-              data-ocid="car.model.input"
+              data-ocid="truck.model.input"
             />
           </div>
 
           <div className="space-y-1">
-            <Label htmlFor="car-variant" className="text-xs font-semibold">
+            <Label htmlFor="truck-variant" className="text-xs font-semibold">
               Variant (Optional)
             </Label>
             <Input
-              id="car-variant"
+              id="truck-variant"
               value={variant}
               onChange={(e) => setVariant(e.target.value)}
-              placeholder="LXi, VXi, ZXi..."
+              placeholder="HX, SE..."
               className="h-8 text-sm"
-              data-ocid="car.variant.input"
+              data-ocid="truck.variant.input"
             />
           </div>
 
           <div className="space-y-1">
-            <Label htmlFor="car-engineCC" className="text-xs font-semibold">
-              Engine CC / Battery Capacity
+            <Label htmlFor="truck-engineCC" className="text-xs font-semibold">
+              Engine CC / GVW
             </Label>
             <Input
-              id="car-engineCC"
-              type="number"
+              id="truck-engineCC"
               value={engineCC}
               onChange={(e) => setEngineCC(e.target.value)}
-              placeholder="1197"
+              placeholder="3783 cc / 7.5 T"
               className="h-8 text-sm"
-              data-ocid="car.engine_cc.input"
+              data-ocid="truck.engine_cc.input"
             />
           </div>
         </div>
 
         <div className="mt-3 space-y-1">
-          <Label htmlFor="car-notes" className="text-xs font-semibold">
+          <Label htmlFor="truck-notes" className="text-xs font-semibold">
             Notes
           </Label>
           <Textarea
-            id="car-notes"
+            id="truck-notes"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             rows={2}
             className="text-sm"
-            data-ocid="car.notes.textarea"
+            data-ocid="truck.notes.textarea"
           />
         </div>
       </div>
@@ -1036,7 +1032,7 @@ export function CarInspectionForm() {
         <button
           type="button"
           onClick={() => photoInputRef.current?.click()}
-          data-ocid="car.photos.upload_button"
+          data-ocid="truck.photos.upload_button"
           className="no-print w-full border-2 border-dashed border-primary/30 rounded-lg py-6 px-4 flex flex-col items-center justify-center gap-2 hover:border-primary/60 hover:bg-primary/5 transition-all duration-150 cursor-pointer mb-4"
         >
           <ImagePlus className="h-7 w-7 text-primary/50" />
@@ -1055,7 +1051,7 @@ export function CarInspectionForm() {
                 key={photo.id}
                 className="relative group rounded-lg overflow-hidden border border-border shadow-sm"
                 style={{ height: 90 }}
-                data-ocid={`car.photos.item.${idx + 1}`}
+                data-ocid={`truck.photos.item.${idx + 1}`}
               >
                 <img
                   src={photo.data}
@@ -1065,7 +1061,7 @@ export function CarInspectionForm() {
                 <button
                   type="button"
                   onClick={() => removePhoto(photo.id)}
-                  data-ocid={`car.photos.delete_button.${idx + 1}`}
+                  data-ocid={`truck.photos.delete_button.${idx + 1}`}
                   className="no-print absolute top-1 right-1 bg-black/60 hover:bg-red-600 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-150"
                   title="Remove"
                 >
@@ -1098,7 +1094,7 @@ export function CarInspectionForm() {
             size="sm"
             onClick={markAllIntact}
             className="gap-1.5 text-xs font-semibold text-green-700 border-green-300 bg-green-50 hover:bg-green-100 hover:border-green-400"
-            data-ocid="car_parts.mark_all.button"
+            data-ocid="truck_parts.mark_all.button"
           >
             <CheckSquare className="h-3.5 w-3.5" />
             Mark All Intact
@@ -1127,10 +1123,10 @@ export function CarInspectionForm() {
 
         {/* Parts List */}
         <div className="space-y-0 rounded-lg border border-border overflow-hidden">
-          {ALL_CAR_PARTS.map((part, idx) => (
+          {ALL_TRUCK_PARTS.map((part, idx) => (
             <div
               key={part.key}
-              data-ocid={`car_parts.item.${idx + 1}`}
+              data-ocid={`truck_parts.item.${idx + 1}`}
               className={`
                 flex items-center justify-between gap-3 px-3 py-2.5
                 border-b border-border/50 last:border-b-0
@@ -1182,60 +1178,60 @@ export function CarInspectionForm() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 mb-4">
           <div className="space-y-1">
             <Label
-              htmlFor="car-inspectionDate"
+              htmlFor="truck-inspectionDate"
               className="text-xs font-semibold"
             >
               Inspection Date
             </Label>
             <div className="flex gap-2">
               <Input
-                id="car-inspectionDate"
+                id="truck-inspectionDate"
                 type="date"
                 value={inspectionDate}
                 onChange={(e) => setInspectionDate(e.target.value)}
                 className="h-8 text-sm flex-1"
-                data-ocid="car.inspection_date.input"
+                data-ocid="truck.inspection_date.input"
               />
               <Input
-                id="car-inspectionTime"
+                id="truck-inspectionTime"
                 type="time"
                 value={inspectionTime}
                 onChange={(e) => setInspectionTime(e.target.value)}
                 className="h-8 text-sm w-28"
-                data-ocid="car.inspection_time.input"
+                data-ocid="truck.inspection_time.input"
               />
             </div>
           </div>
           <div className="space-y-1">
             <Label
-              htmlFor="car-inspectionPlace"
+              htmlFor="truck-inspectionPlace"
               className="text-xs font-semibold"
             >
               Inspection Place
             </Label>
             <Input
-              id="car-inspectionPlace"
+              id="truck-inspectionPlace"
               value={inspectionPlace}
               onChange={(e) => setInspectionPlace(e.target.value)}
               placeholder="City / Location"
               className="h-8 text-sm"
-              data-ocid="car.inspection_place.input"
+              data-ocid="truck.inspection_place.input"
             />
           </div>
         </div>
 
         <div className="space-y-1 mb-4">
-          <Label htmlFor="car-remarks" className="text-xs font-semibold">
+          <Label htmlFor="truck-remarks" className="text-xs font-semibold">
             Remarks
           </Label>
           <Textarea
-            id="car-remarks"
+            id="truck-remarks"
             value={remarks}
             onChange={(e) => setRemarks(e.target.value)}
             rows={2}
             placeholder="Any additional remarks..."
             className="text-sm"
-            data-ocid="car.remarks.textarea"
+            data-ocid="truck.remarks.textarea"
           />
         </div>
 
@@ -1262,7 +1258,7 @@ export function CarInspectionForm() {
                 size="sm"
                 onClick={() => setSurveyorSignatureImage(null)}
                 className="text-xs text-red-600 border-red-200 hover:bg-red-50"
-                data-ocid="car.surveyor_signature.delete_button"
+                data-ocid="truck.surveyor_signature.delete_button"
               >
                 <X className="h-3 w-3 mr-1" /> Remove
               </Button>
@@ -1271,7 +1267,7 @@ export function CarInspectionForm() {
             <button
               type="button"
               onClick={() => surveyorSignatureInputRef.current?.click()}
-              data-ocid="car.surveyor_signature.upload_button"
+              data-ocid="truck.surveyor_signature.upload_button"
               className="flex items-center gap-2 px-4 py-2 border border-dashed border-primary/30 rounded-lg text-sm text-muted-foreground hover:border-primary/60 hover:bg-primary/5 transition-all"
             >
               <Upload className="h-4 w-4" />
@@ -1281,11 +1277,7 @@ export function CarInspectionForm() {
         </div>
 
         {/* Sign columns */}
-        <div className="grid grid-cols-2 gap-4 pt-3 border-t border-border/50">
-          <div className="text-xs font-semibold text-center">
-            Name &amp; Sign of Proposer
-            <div className="mt-6 border-b-2 border-foreground/40 mx-4" />
-          </div>
+        <div className="grid grid-cols-1 gap-4 pt-3 border-t border-border/50 max-w-xs ml-auto">
           <div className="text-xs font-semibold text-center">
             Name &amp; Sign of Surveyor
             <div className="mt-6 border-b-2 border-foreground/40 mx-4" />
@@ -1302,14 +1294,14 @@ export function CarInspectionForm() {
           type="submit"
           disabled={isPending}
           className="gap-2"
-          data-ocid="car.form.submit_button"
+          data-ocid="truck.form.submit_button"
         >
           {isPending ? (
             <Loader2 className="h-4 w-4 animate-spin" />
           ) : (
             <Save className="h-4 w-4" />
           )}
-          {isPending ? "Saving..." : "Save Car Record"}
+          {isPending ? "Saving..." : "Save Truck/Trailer Record"}
         </Button>
 
         <Button
@@ -1317,7 +1309,7 @@ export function CarInspectionForm() {
           variant="outline"
           onClick={handlePrint}
           className="gap-2"
-          data-ocid="car.form.print_button"
+          data-ocid="truck.form.print_button"
         >
           <Printer className="h-4 w-4" />
           Print
@@ -1328,7 +1320,7 @@ export function CarInspectionForm() {
           variant="outline"
           onClick={handleDownloadPDF}
           className="gap-2"
-          data-ocid="car.form.pdf_button"
+          data-ocid="truck.form.pdf_button"
         >
           <FileDown className="h-4 w-4" />
           Download PDF

@@ -668,11 +668,73 @@ export function InspectionForm() {
     proposerName,
   });
 
+  const buildRecord = (): TwoWheeler => ({
+    registrationNumber: regNumber.trim(),
+    odometer: BigInt(odometer || 0),
+    chassisNumber: chassisNumber.trim(),
+    engineNumber: engineNumber.trim(),
+    ownerName: ownerName.trim(),
+    contactNumber: insuranceCompany.trim(),
+    color: color.trim(),
+    manufacturingYear: BigInt(modelYear || new Date().getFullYear()),
+    fuelType,
+    brand: brand.trim(),
+    model: model.trim(),
+    vehicleType,
+    engineOrBatteryCapacity: BigInt(engineCC || 0),
+    variant: variant.trim() || undefined,
+    notes: remarks || notes,
+    vehicleCondition: {
+      headLight: parts.headLamp || undefined,
+      frontScoop: parts.visor || undefined,
+      bodyTypeScooter: parts.fairing || undefined,
+      speedometerPanel: parts.frontPanel || undefined,
+      alloyOrWheelRim: parts.hubNose || undefined,
+      fuelGauge: parts.legShield || undefined,
+      mudGuardFront: parts.mudguardFront || undefined,
+      frontShockAbsorber: parts.shockerLeft || undefined,
+      rearShockAbsorber: parts.shockerRight || undefined,
+      frontLHIndicator: parts.indicatorLt || undefined,
+      frontRHIndicator: parts.indicatorRt || undefined,
+      handleBar: parts.rearMirrorLeft || undefined,
+      remoteKeyWorking: parts.rearMirrorRight || undefined,
+      fuelTank: parts.fuelTank || undefined,
+      sideCovers: parts.leftSideCover || undefined,
+      mainStand: parts.leftRunningBoard || undefined,
+      mudGuardRear: parts.leftSideRearCowl || undefined,
+      gearShiftLever: parts.gearShiftLever || undefined,
+      discBrakesFront: parts.footBrake || undefined,
+      brakesCondition: parts.leftFootRestFront || undefined,
+      rearBrakeLever: parts.leftFootRestRear || undefined,
+      silencerCover: parts.chainCover || undefined,
+      rearShockAbsorberType: parts.leftRearShocker || undefined,
+      sideStand: parts.sareeGuard || undefined,
+      engineFunction: parts.engineHead || undefined,
+      tailLamp: parts.tailLamp || undefined,
+      rearLHIndicator: parts.leftRearIndicator || undefined,
+      rearRHIndicator: parts.rightRearIndicator || undefined,
+      forkBend: parts.rearCowl || undefined,
+      silencer: parts.silencer || undefined,
+      discBrakesRear: parts.rightRearShocker || undefined,
+      clutchCondition: parts.rightFootRestRear || undefined,
+      acceleratorCondition: parts.rightFootRestFront || undefined,
+      selfStart: parts.rightRunningBoard || undefined,
+      ignition: parts.rightRearCowl || undefined,
+      paintCondition: parts.rightSideCover || undefined,
+    },
+  });
+
   const handlePrint = () => {
+    createRecord(buildRecord())
+      .then(() => toast.success("Record auto-saved."))
+      .catch(() => {});
     openPrintPopup(buildPrintHTML(getPrintData()));
   };
 
   const handleDownloadPDF = () => {
+    createRecord(buildRecord())
+      .then(() => toast.success("Record auto-saved."))
+      .catch(() => {});
     openPrintPopup(buildPrintHTML(getPrintData()));
   };
 

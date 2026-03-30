@@ -7,6 +7,7 @@ import { InspectionForm } from "./features/twoWheeler/InspectionForm";
 import { Letterhead } from "./features/twoWheeler/Letterhead";
 import { PickupInspectionForm } from "./features/twoWheeler/PickupInspectionForm";
 import { RecordsList } from "./features/twoWheeler/RecordsList";
+import { TruckTrailerInspectionForm } from "./features/twoWheeler/TruckTrailerInspectionForm";
 
 function App() {
   const year = new Date().getFullYear();
@@ -18,7 +19,9 @@ function App() {
       ? "Car Pre-Inspection Report"
       : activeTab === "pickup"
         ? "Pick-Up Pre-Inspection Report"
-        : "Two-Wheeler Inspection Report";
+        : activeTab === "truck"
+          ? "Truck / Trailer Pre-Inspection Report"
+          : "Two-Wheeler Inspection Report";
 
   return (
     <div className="min-h-screen bg-background">
@@ -68,6 +71,14 @@ function App() {
               <Truck className="h-4 w-4" />
               Pick-Up
             </TabsTrigger>
+            <TabsTrigger
+              value="truck"
+              className="flex items-center gap-2"
+              data-ocid="form.truck.tab"
+            >
+              <Truck className="h-4 w-4" />
+              Truck / Trailer
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="two-wheeler">
@@ -80,6 +91,10 @@ function App() {
 
           <TabsContent value="pickup">
             <PickupInspectionForm />
+          </TabsContent>
+
+          <TabsContent value="truck">
+            <TruckTrailerInspectionForm />
           </TabsContent>
         </Tabs>
 

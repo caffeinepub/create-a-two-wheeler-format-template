@@ -575,12 +575,76 @@ export function PickupInspectionForm() {
     surveyorSignatureImage,
   });
 
+  const buildRecord = (): TwoWheeler => ({
+    registrationNumber: regNumber.trim(),
+    odometer: BigInt(odometer || 0),
+    chassisNumber: chassisNumber.trim(),
+    engineNumber: engineNumber.trim(),
+    ownerName: ownerName.trim(),
+    contactNumber: insuranceCompany.trim(),
+    color: color.trim(),
+    manufacturingYear: BigInt(modelYear || new Date().getFullYear()),
+    fuelType: (fuelType === "electric"
+      ? FuelType.electric
+      : FuelType.petrol) as FuelType,
+    brand: brand.trim(),
+    model: model.trim(),
+    vehicleType: VehicleType.motorcycle,
+    engineOrBatteryCapacity: BigInt(engineCC || 0),
+    variant: variant.trim() || undefined,
+    notes: remarks || notes,
+    vehicleCondition: {
+      headLight: parts.headLamp || undefined,
+      frontScoop: parts.bonnet || undefined,
+      bodyTypeScooter: parts.frontBumper || undefined,
+      speedometerPanel: undefined,
+      alloyOrWheelRim: parts.tyresRim || undefined,
+      fuelGauge: undefined,
+      mudGuardFront: parts.frontPanel || undefined,
+      frontShockAbsorber: parts.leftFrontFender || undefined,
+      rearShockAbsorber: parts.rightFrontFender || undefined,
+      frontLHIndicator: parts.indicatorLight || undefined,
+      frontRHIndicator: parts.fogLamp || undefined,
+      handleBar: undefined,
+      remoteKeyWorking: undefined,
+      fuelTank: undefined,
+      sideCovers: undefined,
+      mainStand: parts.leftRunningBoard || undefined,
+      mudGuardRear: undefined,
+      gearShiftLever: undefined,
+      discBrakesFront: undefined,
+      brakesCondition: undefined,
+      rearBrakeLever: undefined,
+      silencerCover: undefined,
+      rearShockAbsorberType: undefined,
+      sideStand: undefined,
+      engineFunction: undefined,
+      tailLamp: parts.tailLamp || undefined,
+      rearLHIndicator: undefined,
+      rearRHIndicator: undefined,
+      forkBend: undefined,
+      silencer: parts.floorSilencer || undefined,
+      discBrakesRear: undefined,
+      clutchCondition: undefined,
+      acceleratorCondition: undefined,
+      selfStart: undefined,
+      ignition: undefined,
+      paintCondition: undefined,
+    },
+  });
+
   const handlePrint = () => {
+    createRecord(buildRecord())
+      .then(() => toast.success("Record auto-saved."))
+      .catch(() => {});
     const html = buildPickupPrintHTML(getPrintData());
     openPrintPopup(html);
   };
 
   const handleDownloadPDF = () => {
+    createRecord(buildRecord())
+      .then(() => toast.success("Record auto-saved."))
+      .catch(() => {});
     const html = buildPickupPrintHTML(getPrintData());
     const blob = new Blob([html], { type: "text/html" });
     const url = URL.createObjectURL(blob);
